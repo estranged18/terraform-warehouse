@@ -1,12 +1,14 @@
 
 # _________________________________STATE vars_________________________________
 variable "AWS_ID"{
-  type = string
+  type    = string
+  default = ""
   # valore assegnato a runtime: AWS_ACCESS_KEY_ID
 }
 
 variable "AWS_SECRET_KEY"{
-  type = string
+  type    = string
+  default = ""
   # valore assegnato a runtime: AWS_SECRET_ACCESS_KEY
 }
 
@@ -58,17 +60,20 @@ variable "RDS_USER"{
 }
 
 variable "RDS_PASSWORD"{
-  type = string
+  type    = string
+  default = ""
   # valore assegnato a runtime: RDS_PASSWORD
 }
 
 variable "RDS_DB_NAME"{
-  type = string
+  type    = string
+  default = ""
   # valore assegnato a runtime: RDS_DB_NAME
 }
 
 variable "RDS_PORT"{
-  type = string
+  type    = string
+  default = ""
   # valore assegnato a runtime: RDS_PORT
 }
 
