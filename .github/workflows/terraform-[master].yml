@@ -44,6 +44,13 @@ jobs:
           TF_VAR_RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
       - name: Terraform Apply
         run: terraform apply 
+        env:
+          TF_VAR_AWS_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          TF_VAR_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          TF_VAR_RDS_USER: ${{ secrets.RDS_USERNAME }}
+          TF_VAR_RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
+          TF_VAR_RDS_PORT: ${{ secrets.RDS_PORT }}
+          TF_VAR_RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
 
         
 
