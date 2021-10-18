@@ -1,30 +1,34 @@
 
 # _________________________________STATE vars_________________________________
-variable "credentialsfile" {
-  default = "/Users/lucac/.aws/credentials" 
+variable "AWS_ID"{
+  type = string
+  # valore assegnato a runtime: AWS_ACCESS_KEY_ID
 }
 
-variable "jar_local_path" {
-  default = "C:/Users/lucac/firstapp/terraform-warehouse/wrsDEV-0.0.7-SNAPSHOT.jar"
+variable "AWS_SECRET_KEY"{
+  type = string
+  # valore assegnato a runtime: AWS_SECRET_ACCESS_KEY
 }
 
 variable "sh_local_path" {
-  default = "C:/Users/lucac/firstapp/terraform-warehouse/script.sh"
+  default = "https://github.com/estranged18/terraform-warehouse/blob/master/script.sh"
 }
 
 variable "service_local_path" {
-  default = "C:/Users/lucac/firstapp/terraform-warehouse/wrs.service"
+  default = "https://github.com/estranged18/terraform-warehouse/blob/master/wrs.service"
 }
 
 # _________________________________NETWORK vars_________________________________
 variable "cidr_vpc" {
   description = "blocco CIDR per la VPC"
-  default     = "172.28.0.0/16"
+  default     = "10.0.0.0/16"
 }
 variable "cidr_subnet" {
   description = "blocco CIDR per la subnet"
   type        = list(string)
-  default     = ["172.28.0.0/24", "172.28.16.0/24"]
+  default     = ["10.0.0.0/24", "10.0.1.0/24"]
+  # il primo CIDR e' per la subnet pubblica, il secondo e' per 
+  # la subnet privata: https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario3.html
 }
 variable "availability_zone" {
   description = "zona di disponibilita' per la subnet"
@@ -47,3 +51,26 @@ variable "environment_tag" {
 }
 
 # ___________________________________RDS vars___________________________________
+
+variable "RDS_USER"{
+  type = string
+  # valore assegnato a runtime: RDS_USERNAME
+}
+
+variable "RDS_PASSWORD"{
+  type = string
+  # valore assegnato a runtime: RDS_PASSWORD
+}
+
+variable "RDS_DB_NAME"{
+  type = string
+  # valore assegnato a runtime: RDS_DB_NAME
+}
+
+variable "RDS_PORT"{
+  type = string
+  # valore assegnato a runtime: RDS_PORT
+}
+
+
+

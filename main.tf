@@ -1,12 +1,21 @@
 
 # ________________________________PROVIDER________________________________
-provider "aws" {
-  shared_credentials_file = var.credentialsfile
-  region = "${var.availability_zone[0]}"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }  
+  required_version = ">= 1.0.8"
 }
 
-terraform {
-  required_version = ">= 1.0.8"
+
+# Configure the AWS Provider
+provider "aws" {
+  access_key = "${var.AWS_ID}"
+  secret_key = "${var.AWS_SECRET_KEY}"
+  region     = "${var.availability_zone[0]}"
 }
 
 # ________________________________BUCKET S3________________________________
@@ -77,7 +86,7 @@ resource "aws_s3_bucket_object" "obj3" {
 resource "aws_instance" "terraform_wrs_dev" {
   ami                    = "${var.instance_ami}"
   instance_type          = "${var.instance_type}"
-  subnet_id              = "${aws_subnet.wrs_public_subnet1.id}"
+  subnet_id              = "${aws_subnet.wrs_public_subnet.id}"
   vpc_security_group_ids = ["${aws_security_group.wrs_sg.id}"]
   iam_instance_profile   = "AWSEC2InstanceAccessToS3Role"
 
@@ -105,7 +114,7 @@ resource "aws_instance" "terraform_wrs_dev" {
       sudo chmod 777 workspace
 
       cd /home/ec2-user/workspace
-      wget https://tfs3bucket.s3.eu-west-1.amazonaws.com/wrsDEV-0.0.7-SNAPSHOT.jar
+      wget https://tfs3bucket.s3.eu-west-1.amazonaws.com/warehouse-0.0.7-SNAPSHOT.jar
       wget https://tfs3bucket.s3.eu-west-1.amazonaws.com/script.sh
 
       sudo chmod 777 script.sh
@@ -124,3 +133,30 @@ resource "aws_instance" "terraform_wrs_dev" {
 
 # ___________________________________RDS DB___________________________________
 
+resource "aws_db_instance" "default" {
+  allocated_storage      = 10
+  engine                 = "postgresql"
+  instance_class         = "db.t3.micro"
+  name                   = "${var.RDS_DB_NAME}"
+  username               = "${var.RDS_USER}"
+  password               = "${var.RDS_PASSWORD}"
+  port                   = "${var.RDS_PORT}"
+  skip_final_snapshot    = true
+  db_subnet_group_name   = aws_db_subnet_group.db_group.name
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+
+
+  tags = {
+    Name        = "terraform-wrs-db"
+    Environment = "${var.environment_tag}"
+  }
+}
+
+resource "aws_db_subnet_group" "db_group" {
+  name       = "db_group"
+  subnet_ids = ["${aws_subnet.wrs_private_subnet.id}"]
+
+  tags = {
+    Name = "terraform-rds-subnet-group"
+  } 
+}

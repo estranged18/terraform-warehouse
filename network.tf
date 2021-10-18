@@ -24,23 +24,23 @@ resource "aws_internet_gateway" "igw" {
 }
 
 # _____________________________________SUBNETS_____________________________________
-resource "aws_subnet" "wrs_public_subnet1" {
+resource "aws_subnet" "wrs_public_subnet" {
   vpc_id                  = "${aws_vpc.vpc.id}"
   cidr_block              = "${var.cidr_subnet[0]}"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.availability_zone[1]}"
   tags = {
-    Name        = "terraform-subnet1"
+    Name        = "terraform-public-subnet"
     Environment = "${var.environment_tag}"
   }
 }
-resource "aws_subnet" "wrs_public_subnet2" {
+resource "aws_subnet" "wrs_private_subnet" {
   vpc_id                  = "${aws_vpc.vpc.id}"
   cidr_block              = "${var.cidr_subnet[1]}"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.availability_zone[2]}"
   tags = {
-    Name        = "terraform-subnet2"
+    Name        = "terraform-private-subnet"
     Environment = "${var.environment_tag}"
   }
 }
@@ -100,6 +100,29 @@ resource "aws_security_group" "wrs_sg" {
   }
   tags = {
     Name = "terraform-wrs-sg"
+    Environment = "${var.environment_tag}"
+  }
+}
+
+resource "aws_security_group" "rds_sg" {
+  name   = "rds_database_sg"
+  vpc_id = aws_vpc.vpc.id
+
+  ingress {
+    description = "PostgreSQL access"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    security_groups = ["${aws_security_group.wrs_sg.id}"]
+  } 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "RDS-databse-sg"
     Environment = "${var.environment_tag}"
   }
 }
