@@ -23,12 +23,12 @@ jobs:
       - name: Replace credentials in script.sh
         # sed -i 's/foo/bar/g' input_file, replace foo with bar
         run: | 
-          sed -i 's/RDS_HOSTNAME/${{ secrets.RDS_HOSTNAME }}g' script.sh
-          sed -i 's/RDS_PORT/${{ secrets.RDS_PORT }}g' script.sh
-          sed -i 's/RDS_DB_NAME/${{ secrets.RDS_DB_NAME }}g' script.sh
-          sed -i 's/RDS_HOSTNAME/${{ secrets.RDS_HOSTNAME }}g' script.sh
-          sed -i 's/RDS_USERNAME/${{ secrets.RDS_USERNAME }}g' script.sh
-          sed -i 's/RDS_PASSWORD/${{ secrets.RDS_PASSWORD }}g' script.sh
+          sed 's/RDS_HOSTNAME/${{ secrets.RDS_HOSTNAME }}/g' script.sh
+          sed 's/RDS_PORT/${{ secrets.RDS_PORT }}/g' script.sh
+          sed 's/RDS_DB_NAME/${{ secrets.RDS_DB_NAME }}/g' script.sh
+          sed 's/RDS_HOSTNAME/${{ secrets.RDS_HOSTNAME }}/g' script.sh
+          sed 's/RDS_USERNAME/${{ secrets.RDS_USERNAME }}/g' script.sh
+          sed 's/RDS_PASSWORD/${{ secrets.RDS_PASSWORD }}/g' script.sh
       - name: Terraform Format
         run: terraform fmt -check
       - name: Terraform init
