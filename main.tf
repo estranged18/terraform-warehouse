@@ -10,7 +10,6 @@ terraform {
   required_version = ">= 1.0.8"
 }
 
-
 # Configure the AWS Provider
 provider "aws" {
   access_key = "${var.AWS_ID}"
@@ -63,23 +62,19 @@ resource "aws_s3_bucket_policy" "tfs3bucket_policy" {
 # Il JAR si trova gia' sul bucket, viene caricato con l'esecuzione
 # del workflow della repository https://github.com/estranged18/warehouse
 
-resource "aws_s3_bucket_object" "obj2" {
+resource "aws_s3_bucket_object" "obj1" {
   # carico script.sh sul bucket
   bucket = aws_s3_bucket.tfs3bucket.id
   key    = "script.sh"
   acl    = "private"   
   source = "${var.sh_local_path}"
-
-  etag   = filemd5("${var.sh_local_path}")
 }
-resource "aws_s3_bucket_object" "obj3" {
+resource "aws_s3_bucket_object" "obj2" {
   # carico wrs.service sul bucket
   bucket = aws_s3_bucket.tfs3bucket.id
   key    = "wrs.service"
   acl    = "private"   
   source = "${var.service_local_path}"
-
-  etag   = filemd5("${var.service_local_path}")
 }
 
 # ________________________________EC2 INSTANCE________________________________

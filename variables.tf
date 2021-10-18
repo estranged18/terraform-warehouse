@@ -74,7 +74,7 @@ variable "RDS_DB_NAME"{
 
 variable "RDS_PORT"{
   type    = string
-  default = ""
+  default = "0"
   # valore assegnato a runtime: RDS_PORT
 }
 
