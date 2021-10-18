@@ -55,7 +55,8 @@ variable "environment_tag" {
 # ___________________________________RDS vars___________________________________
 
 variable "RDS_USER"{
-  type = string
+  type    = string
+  default = ""
   # valore assegnato a runtime: RDS_USERNAME
 }
 
