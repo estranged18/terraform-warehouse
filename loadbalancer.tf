@@ -3,7 +3,7 @@ resource "aws_lb" "wrs_lb" {
   name               = "tfwrslb"
   load_balancer_type = "application"
   security_groups    = [aws_security_group.wrs_sg.id]
-  subnets            = [aws_subnet.wrs_public_subnet1.id, aws_subnet.wrs_public_subnet2.id]
+  subnets            = [aws_subnet.wrs_public_subnet.id, aws_subnet.wrs_private_subnet.id]
   
   tags = {
     Name        = "terraform-alb"

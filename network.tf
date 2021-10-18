@@ -57,12 +57,12 @@ resource "aws_route_table" "public_rt" {
     Environment = "${var.environment_tag}"
   }
 }
-resource "aws_route_table_association" "as_sub1" {
-  subnet_id = "${aws_subnet.wrs_public_subnet1.id}"
+resource "aws_route_table_association" "as_sub_public" {
+  subnet_id = "${aws_subnet.wrs_public_subnet.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
-resource "aws_route_table_association" "as_sub2" {
-  subnet_id = "${aws_subnet.wrs_public_subnet2.id}"
+resource "aws_route_table_association" "as_sub_private" {
+  subnet_id = "${aws_subnet.wrs_private_subnet.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
 
