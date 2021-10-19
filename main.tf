@@ -7,8 +7,6 @@ terraform {
     region         = "eu-west-1"
     dynamodb_table = "terraform-tfstate-lock"
     encrypt        = true
-    access_key = "${var.AWS_ID}"
-    secret_key = "${var.AWS_SECRET_KEY}"
   }
   required_providers {
     aws = {
