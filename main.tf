@@ -1,13 +1,15 @@
 
 # ________________________________PROVIDER________________________________
+#terraform {
+ #   backend "s3" {
+  #  bucket         = "terraform-state-warehouse"
+   # key            = "terraform.tfstate"
+    #region         = "eu-west-1"
+    #dynamodb_table = "terraform-tfstate-lock"
+    #encrypt        = true
+  #}
+#}
 terraform {
-  backend "s3" {
-    bucket         = "terraform-state-warehouse"
-    key            = "terraform.tfstate"
-    region         = "eu-west-1"
-    dynamodb_table = "terraform-tfstate-lock"
-    encrypt        = true
-  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -42,7 +44,7 @@ resource "aws_s3_bucket" "terraform_state" {
   }
   server_side_encryption_configuration {
     rule {
-      apply_server_side_centryption_by_default {
+      apply_server_side_encryption_by_default {
         sse_algorithm = "AES256"
       }
     }
@@ -55,7 +57,7 @@ resource "aws_dynamodb_table" "terraform_lock" {
 
   attribute {
     name  = "LockID"
-    trype = "S"
+    type = "S"
   }
 }
 
