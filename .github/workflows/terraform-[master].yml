@@ -36,7 +36,7 @@ jobs:
       - name: Terraform Apply
         # sed -i 's/foo/bar/g' input_file, replace foo with bar
         run: |
-          sed -i 's/RDS_HOSTNAME/${{ secrets.RDS_HOSTNAME }}/g;s/RDS_PORT/5432/g;s/RDS_DB_NAME/${{ secrets.RDS_DB_NAME }}/g;s/RDS_USERNAME/${{ secrets.RDS_USERNAME }}/g;s/RDS_PASSWORD/${{ secrets.RDS_PASSWORD }}/g' script.sh
+          sed -i 's/RDS_HOSTNAME/${{ secrets.RDS_HOSTNAME }}/g;s/RDS_PORT/${{ secrets.RDS_PORT }}/g;s/RDS_DB_NAME/${{ secrets.RDS_DB_NAME }}/g;s/RDS_USERNAME/${{ secrets.RDS_USERNAME }}/g;s/RDS_PASSWORD/${{ secrets.RDS_PASSWORD }}/g' script.sh
           terraform apply -auto-approve 
         env:
           TF_VAR_AWS_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
