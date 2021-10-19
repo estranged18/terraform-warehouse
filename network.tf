@@ -34,13 +34,23 @@ resource "aws_subnet" "wrs_public_subnet" {
     Environment = "${var.environment_tag}"
   }
 }
-resource "aws_subnet" "wrs_private_subnet" {
+resource "aws_subnet" "wrs_private_subnet1" {
   vpc_id                  = "${aws_vpc.vpc.id}"
   cidr_block              = "${var.cidr_subnet[1]}"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.availability_zone[2]}"
   tags = {
-    Name        = "terraform-private-subnet"
+    Name        = "terraform-private-subnet1"
+    Environment = "${var.environment_tag}"
+  }
+}
+resource "aws_subnet" "wrs_private_subnet2" {
+  vpc_id                  = "${aws_vpc.vpc.id}"
+  cidr_block              = "${var.cidr_subnet[2]}"
+  map_public_ip_on_launch = "true"
+  availability_zone       = "${var.availability_zone[3]}"
+  tags = {
+    Name        = "terraform-private-subnet2"
     Environment = "${var.environment_tag}"
   }
 }
@@ -61,8 +71,12 @@ resource "aws_route_table_association" "as_sub_public" {
   subnet_id = "${aws_subnet.wrs_public_subnet.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
-resource "aws_route_table_association" "as_sub_private" {
-  subnet_id = "${aws_subnet.wrs_private_subnet.id}"
+resource "aws_route_table_association" "as_sub_private1" {
+  subnet_id = "${aws_subnet.wrs_private_subnet1.id}"
+  route_table_id = "${aws_route_table.public_rt.id}"
+}
+resource "aws_route_table_association" "as_sub_private2" {
+  subnet_id = "${aws_subnet.wrs_private_subnet2.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
 

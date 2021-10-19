@@ -28,14 +28,14 @@ variable "cidr_vpc" {
 variable "cidr_subnet" {
   description = "blocco CIDR per la subnet"
   type        = list(string)
-  default     = ["10.0.0.0/24", "10.0.1.0/24"]
+  default     = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
   # il primo CIDR e' per la subnet pubblica, il secondo e' per 
   # la subnet privata: https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario3.html
 }
 variable "availability_zone" {
   description = "zona di disponibilita' per la subnet"
   type        = list(string)
-  default     = ["eu-west-1", "eu-west-1a", "eu-west-1b"]
+  default     = ["eu-west-1", "eu-west-1a", "eu-west-1b", "eu-west-1c"]
 }
 
 # ___________________________________EC2 vars___________________________________

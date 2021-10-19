@@ -1,6 +1,13 @@
 
 # ________________________________PROVIDER________________________________
 terraform {
+  backend "s3" {
+    bucket         = "terraform-state-warehouse"
+    key            = "global/s3/terraform.tfstate"
+    region         = "eu-west-1"
+    dynamodb_table = "terraform-tfstate-lock"
+    encrypt        = true
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -18,6 +25,41 @@ provider "aws" {
 }
 
 # ________________________________BUCKET S3________________________________
+#
+##########################################################
+## questo bucket e' esclusivo per lo stato di terraform ##
+##########################################################
+#
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "terraform-state-warehouse"
+
+
+  lifecycle {
+    prevent_destroy = true
+  }
+  versioning {
+    enabled = true
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_centryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+}
+resource "aws_dynamodb_table" "terraform_lock" {
+  name         = "terraform-tfstate-lock"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+
+  attribute {
+    name  = "LockID"
+    trype = "S"
+  }
+}
+
+#################################################
 resource "aws_s3_bucket" "tfs3bucket" {
   # contenente il JAR di warehouse (profile: dev)
   bucket = "tfs3bucket"
@@ -149,7 +191,7 @@ resource "aws_db_instance" "default" {
 
 resource "aws_db_subnet_group" "db_group" {
   name       = "db_group"
-  subnet_ids = ["${aws_subnet.wrs_private_subnet.id}"]
+  subnet_ids = [aws_subnet.wrs_private_subnet1.id, aws_subnet.wrs_private_subnet2.id]
 
   tags = {
     Name = "terraform-rds-subnet-group"
