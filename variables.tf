@@ -12,13 +12,6 @@ variable "AWS_SECRET_KEY"{
   # valore assegnato a runtime: AWS_SECRET_ACCESS_KEY
 }
 
-variable "sh_local_path" {
-  default = "script.sh"
-}
-
-variable "service_local_path" {
-  default = "wrs.service"
-}
 
 # _________________________________NETWORK vars_________________________________
 variable "cidr_vpc" {

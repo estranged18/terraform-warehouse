@@ -77,14 +77,18 @@ resource "aws_s3_bucket_object" "obj1" {
   bucket = aws_s3_bucket.tfs3bucket.id
   key    = "script.sh"
   acl    = "private"   
-  source = "${var.sh_local_path}"
+  source = "script.sh"
+
+  etag = filemd5("script.sh")
 }
 resource "aws_s3_bucket_object" "obj2" {
   # carico wrs.service sul bucket
   bucket = aws_s3_bucket.tfs3bucket.id
   key    = "wrs.service"
   acl    = "private"   
-  source = "${var.service_local_path}"
+  source = "wrs.service"
+
+  etag = filemd5("wrs.service")
 }
 
 # ________________________________EC2 INSTANCE________________________________
