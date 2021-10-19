@@ -13,11 +13,11 @@ variable "AWS_SECRET_KEY"{
 }
 
 variable "sh_local_path" {
-  default = "script.sh"
+  default = "terraform-warehouse/script.sh"
 }
 
 variable "service_local_path" {
-  default = "wrs.service"
+  default = "terraform-warehouse/wrs.service"
 }
 
 # _________________________________NETWORK vars_________________________________
