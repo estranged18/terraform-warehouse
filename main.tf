@@ -1,14 +1,14 @@
 
 # ________________________________PROVIDER________________________________
-#terraform {
- #   backend "s3" {
-  #  bucket         = "terraform-state-warehouse"
-   # key            = "terraform.tfstate"
-    #region         = "eu-west-1"
-    #dynamodb_table = "terraform-tfstate-lock"
-    #encrypt        = true
-  #}
-#}
+terraform {
+    backend "s3" {
+    bucket         = "terraform-state-warehouse"
+    key            = "terraform.tfstate"
+    region         = "eu-west-1"
+    dynamodb_table = "terraform-tfstate-lock"
+    encrypt        = true
+  }
+}
 terraform {
   required_providers {
     aws = {
@@ -27,41 +27,7 @@ provider "aws" {
 }
 
 # ________________________________BUCKET S3________________________________
-#
-##########################################################
-## questo bucket e' esclusivo per lo stato di terraform ##
-##########################################################
-#
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform-state-warehouse"
 
-
-  lifecycle {
-    prevent_destroy = true
-  }
-  versioning {
-    enabled = true
-  }
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-}
-resource "aws_dynamodb_table" "terraform_lock" {
-  name         = "terraform-tfstate-lock"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
-
-  attribute {
-    name  = "LockID"
-    type = "S"
-  }
-}
-
-#################################################
 resource "aws_s3_bucket" "tfs3bucket" {
   # contenente il JAR di warehouse (profile: dev)
   bucket = "tfs3bucket"
@@ -172,9 +138,9 @@ resource "aws_instance" "terraform_wrs_dev" {
 
 # ___________________________________RDS DB___________________________________
 
-resource "aws_db_instance" "default" {
+resource "aws_db_instance" "wrs_db" {
   allocated_storage      = 10
-  engine                 = "postgresql"
+  engine                 = "aurora-postgresql"
   instance_class         = "db.t3.micro"
   name                   = "${var.RDS_DB_NAME}"
   username               = "${var.RDS_USER}"
