@@ -140,7 +140,7 @@ resource "aws_instance" "terraform_wrs_dev" {
 
 resource "aws_db_instance" "wrs_db" {
   allocated_storage      = 10
-  engine                 = "aurora-postgresql"
+  engine                 = "postgres"
   instance_class         = "db.t3.micro"
   name                   = "${var.RDS_DB_NAME}"
   username               = "${var.RDS_USER}"
