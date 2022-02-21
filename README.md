@@ -15,9 +15,7 @@ The environment is composed of:
   - DNS resolver
   
 - Main:
-  - S3 bucket with access policy
-  - EC2 instance
-  - RDS database
+  - EC2 instance Amazon Linux 2
   
 - Load Balancer:
   - Application lb
