@@ -28,4 +28,4 @@ S3 bucket is used to store the Warehouse JAR that will be accessed from the EC2 
   
 The bucket contains also two scripts needed to run the application as a Linux service.
   
-_user_data_ feld in EC2 instance is used to install Java Corretto 11, get the scripts and Warehouse JAR from S3 bucket, and launch it as a service on port 8080.
+_user_data_ field in EC2 instance is used to install Java Corretto 11, get the scripts and Warehouse JAR from S3 bucket, and launch it as a service on port 8080.
