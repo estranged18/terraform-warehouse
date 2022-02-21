@@ -5,10 +5,13 @@ This repo contains the Terraform code to generate a complete AWS environment wit
 The environment is composed of:
 - Network:
   - VPC and internet gateway
-  - Two subnets
+  - S3 bucket endpoint
+  - Public subnet for the application
+  - Private subnet for the application
+  - Private subnet for RDS database
   - Routing table
   - Security group for EC2
-  - Security group for RDS
+  - Security group for RDS database
   - DNS resolver
   
 - Main:
